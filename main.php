@@ -22,22 +22,22 @@ $url = "https://api.telegram.org/bot" . $token."/setChatPermissions?";
 $sendUrl="https://api.telegram.org/bot" . $token."/sendMessage?";
 $arg2 = isset($argv[2]) ? $argv[2]:'';
 
-$response=setPermission($chat_id,$url,$flag);
+$response=setPermission($permissionChat_id,$url,$flag);
 if($flag)
 {
     $content["text"]="SuperGroup Will Be Enabled. $arg2";    
-    $sendresponse=sendToArray($chat_id, $sendUrl, $content);
+    $sendresponse=sendToArray($messageChat_id, $sendUrl, $content);
     //die("result is:".$sendresponse);
 }
 else{
     $content["text"]="SuperGroup Will Be Disabled. $arg2";    
-    $sendresponse=sendToArray($chat_id, $sendUrl, $content);
+    $sendresponse=sendToArray($messageChat_id, $sendUrl, $content);
 }
 
 die(($flag==1 ? " enabled " : "disabled") . " set successfully.\n");
 //die("result is:".json_encode($response));
 
-function setPermission($chat_id,$url,$flag)
+function setPermission($permissionChat_id,$url,$flag)
 {
     $ChatPermissions =json_encode( [
         "can_send_messages"=>$flag, 
@@ -50,18 +50,18 @@ function setPermission($chat_id,$url,$flag)
         // "can_pin_messages"=>false      
     ]);    
 
-    $content['chat_id'] = $chat_id;    
+    $content['chat_id'] = $permissionChat_id;    
     $content["permissions"]= $ChatPermissions;
     $turl = $url;
     $turl .=http_build_query($content); 
     $out[] = teleCurl($turl);
     return $out;
 }
-function sendToArray($chat_id,$sendUrl, $content) {
+function sendToArray($messageChat_id,$sendUrl, $content) {
     $out = [];
    // foreach ($to_array as $chat_id) {
         $turl = $sendUrl;
-        $content['chat_id'] = $chat_id;
+        $content['chat_id'] = $messageChat_id;
         $turl .=http_build_query($content);
         $out[] = teleCurl($turl);
     //}
