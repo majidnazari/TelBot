@@ -20,16 +20,17 @@ include 'conf.php';
 $token="5092567192:AAEuiMoP624GLVb4I1udosX4rGAsnZfnF7o";
 $url = "https://api.telegram.org/bot" . $token."/setChatPermissions?";
 $sendUrl="https://api.telegram.org/bot" . $token."/sendMessage?";
+$arg2 = isset($argv[2]) ? $argv[2]:'';
 
 $response=setPermission($chat_id,$url,$flag);
 if($flag)
 {
-    $content["text"]="SuperGroup Will Be Enabled.";    
+    $content["text"]="SuperGroup Will Be Enabled. $arg2";    
     $sendresponse=sendToArray($chat_id, $sendUrl, $content);
     //die("result is:".$sendresponse);
 }
 else{
-    $content["text"]="SuperGroup Will Be Disabled.";    
+    $content["text"]="SuperGroup Will Be Disabled. $arg2";    
     $sendresponse=sendToArray($chat_id, $sendUrl, $content);
 }
 
