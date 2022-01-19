@@ -1,4 +1,5 @@
 <?php
+include 'conf.php';
 $flag=null;
 if(!isset($argv[1]))
 {   
@@ -16,28 +17,28 @@ else
 {
     die("please enter just enable/disable.\n");
 }
-include 'conf.php';
-$token="5092567192:AAEuiMoP624GLVb4I1udosX4rGAsnZfnF7o";
-$url = "https://api.telegram.org/bot" . $token."/setChatPermissions?";
-$sendUrl="https://api.telegram.org/bot" . $token."/sendMessage?";
+//$token="5092567192:AAEuiMoP624GLVb4I1udosX4rGAsnZfnF7o";
+$mainUrl = "https://api.telegram.org/bot" . $mainToken."/setChatPermissions?";
+//die($mainToken);
+$reportUrl="https://api.telegram.org/bot" . $reportToken."/sendMessage?";
 $arg2 = isset($argv[2]) ? $argv[2]:'';
 
-$response=setPermission($permissionChat_id,$url,$flag);
+$response=setPermission($mainChatId,$mainUrl,$flag);
 if($flag)
 {
     $content["text"]="SuperGroup Will Be Enabled. $arg2";    
-    $sendresponse=sendToArray($messageChat_id, $sendUrl, $content);
+    $sendresponse=sendToArray($reportChatId, $reportUrl, $content);
     //die("result is:".$sendresponse);
 }
 else{
     $content["text"]="SuperGroup Will Be Disabled. $arg2";    
-    $sendresponse=sendToArray($messageChat_id, $sendUrl, $content);
+    $sendresponse=sendToArray($reportChatId, $reportUrl, $content);
 }
 
 die(($flag==1 ? " enabled " : "disabled") . " set successfully.\n");
 //die("result is:".json_encode($response));
 
-function setPermission($permissionChat_id,$url,$flag)
+function setPermission($mainChatId,$mainUrl,$flag)
 {
     $ChatPermissions =json_encode( [
         "can_send_messages"=>$flag, 
@@ -50,18 +51,18 @@ function setPermission($permissionChat_id,$url,$flag)
         // "can_pin_messages"=>false      
     ]);    
 
-    $content['chat_id'] = $permissionChat_id;    
+    $content['chat_id'] = $mainChatId;    
     $content["permissions"]= $ChatPermissions;
-    $turl = $url;
+    $turl = $mainUrl;
     $turl .=http_build_query($content); 
     $out[] = teleCurl($turl);
     return $out;
 }
-function sendToArray($messageChat_id,$sendUrl, $content) {
+function sendToArray($reportChatId,$reportUrl, $content) {
     $out = [];
    // foreach ($to_array as $chat_id) {
-        $turl = $sendUrl;
-        $content['chat_id'] = $messageChat_id;
+        $turl = $reportUrl;
+        $content['chat_id'] = $reportChatId;
         $turl .=http_build_query($content);
         $out[] = teleCurl($turl);
     //}
