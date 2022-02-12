@@ -40,13 +40,13 @@
             die(" disable " . " set successfully.\n");
         }
         else if ($flag==="shortmsg") {
-            $responsePhoto = sendPhoto($mainChatId, $reportToken, $disable_file_id,$disableCaption);  
+            $responsePhoto = sendPhoto($mainChatId, $mainToken, $disable_file_id,$disableCaption);  
             $content["text"] = "send short msg to SuperGroup ";   
             $sendresponse = sendToArray($reportChatId, $reportUrl, $content); 
             die(" shortmsg " . " set successfully.\n");   
         } 
         else if($flag==="longmsg") { 
-            $responsePhoto = sendPhoto($mainChatId, $reportToken, $enable_file_id,$enableCaption);        
+            $responsePhoto = sendPhoto($mainChatId, $mainToken, $enable_file_id,$enableCaption);        
             $content["text"] = "send long msg to SuperGroup "; 
             $sendresponse = sendToArray($reportChatId, $reportUrl, $content);  
             die(" longmsg " . " set successfully.\n");
@@ -97,9 +97,9 @@
             curl_close($ch);
             return $result;
         }
-        function sendPhoto($chat_id, $reportToken, $file_id, $caption = '')
+        function sendPhoto($chat_id, $mainToken, $file_id, $caption = '')
         {
-            $url = "https://api.telegram.org/bot" . $reportToken . "/sendPhoto?chat_id=$chat_id"; 
+            $url = "https://api.telegram.org/bot" . $mainToken . "/sendPhoto?chat_id=$chat_id"; 
             $curl = curl_init();
             $data = array(
                 'chat_id' => $chat_id,
